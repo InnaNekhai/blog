@@ -1,0 +1,7 @@
+{% for post in posts %}
+{{ post.name }}
+{{ post.postedAt }}
+{{ post.text }}
+
+<a href="{{ path('full_post', {'id': {{ post.id }}) }}" >Читать далее</a>
+{% endfor %}

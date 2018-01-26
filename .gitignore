@@ -1,3 +1,4 @@
+.idea/
 
 ###> symfony/framework-bundle ###
 .env
@@ -10,4 +11,3 @@
 .web-server-pid
 ###< symfony/web-server-bundle ###
 
-.idea/
