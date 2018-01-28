@@ -39,10 +39,11 @@ class Post
     private $name;
 
     /**
-     * @var string
+     * @var string|null
      * @ORM\Column(type="text")
      */
     private $text;
+
 
     /**
      * Post constructor.
@@ -120,11 +121,39 @@ class Post
      * @param string $text
      * @return Post
      */
-    public function setText(string $text): Post
+    public function setText(?string $text): Post
     {
         $this->text = $text;
         return $this;
     }
+
+  
+    /**
+     * @return null|string
+     */
+    public function getbeginOfText(): ?string
+    {
+        $beginOfText = '';
+        $indexLastSymbol = 200;
+        $str = $this->getText();
+
+        if ( $indexLastSymbol >= (mb_strlen($str)-1)){
+            $indexLastSymbol = mb_strlen($str) + 1;
+        } else {
+            while ( mb_substr($str, $indexLastSymbol, 1) != ' ' && $indexLastSymbol <= (mb_strlen($str)-1)){
+                $indexLastSymbol += 1;
+            }
+        }
+
+        $beginOfText = mb_substr($this->getText(), 0, ($indexLastSymbol+1));
+
+        return $beginOfText;
+
+    }
+
+
+
+
 
 
 }

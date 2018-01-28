@@ -1,7 +1,17 @@
-{% for post in posts %}
-{{ post.name }}
-{{ post.postedAt }}
-{{ post.text }}
+{% extends 'base.html.twig' %}
 
-<a href="{{ path('full_post', {'id': {{ post.id }}) }}" >Читать далее</a>
-{% endfor %}
+{% block body %}
+    <a href="{{ path('create_new_post') }}" >Создать пост</a>
+
+    <div class="container">
+        {% for post in posts %}
+            <div class="col-xs-12 col-md-8">
+                <h3>{{ post.name }}</h3>
+                {{ post.postedAt|date("m.d.Y") }}<br>
+                {{ post.beginOfText }} ...<br>
+                <a href="{{ path("full_post", {'id':  post.id }) }}" >Читать далее</a>
+                    <br>  <br>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
