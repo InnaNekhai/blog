@@ -32,6 +32,17 @@ class PostController extends Controller
     }
 
     /**
+     * @Route("/posts", name="all_posts")
+     */
+    public function showAllPosts()
+    {
+        $repo = $this->getDoctrine()->getRepository(Post::class);
+        $latestPosts = $repo->findBy( [], ['postedAt' => 'DESC']);
+
+        return $this->render('post/homepage.html.twig', ['posts'=>$latestPosts]);
+    }
+
+    /**
      * @Route("/post/{id}", name="full_post", requirements={"id": "\d+"})
      */
     public function showFullPost(Post $post)
@@ -50,12 +61,11 @@ class PostController extends Controller
         if($form->isSubmitted() && $form->isValid()) {
             $em->persist($post);
             $em->flush();
-            $this->addFlash('info', 'Пост опубликован');
 
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('full_post', ['id'=>$post->getId()] );
         }
 
-        return $this->render('post/modifyPost.html.twig', ['form' => $form->createView()]);
+        return $this->render('post/modifyPost.html.twig', ['form' => $form->createView(), 'post' => $post]);
     }
 
 
@@ -71,9 +81,8 @@ class PostController extends Controller
         if($form->isSubmitted() && $form->isValid()){
             $em->persist($post);
             $em->flush();
-            $this->addFlash('info', 'Пост опубликован');
 
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('full_post', ['id'=>$post->getId()] );
         }
 
         return $this->render('post/newPost.html.twig', ['form' => $form->createView(),

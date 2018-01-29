@@ -1,7 +1,13 @@
-Создайте новый пост
+{% extends 'base.html.twig' %}
 
-{{ form_start(form) }}
-{{ form_widget(form) }}
-<button type="submit">Сохранить</button>
-{{ form_end(form) }}
+{% block title %}
+    Создание нового поста - {{ parent() }}
+{% endblock %}
 
+{% block body %}
+    <div class="container">
+        <h1>Создайте новый пост</h1>
+                {% include 'post/form.html.twig' with {'form': form} %}
+            <a href="{{ path("homepage") }}"><button class="btn btn-secondary btn-md btn-block">Вернуться на главную</button></a>
+    </div>
+{% endblock %}

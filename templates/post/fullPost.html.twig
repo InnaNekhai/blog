@@ -1,7 +1,17 @@
-<h1>{{ post.name }}</h1>
-{{ post.postedAt|date("m.d.Y") }}<br>
-{{ post.text }}<br><br>
+{% extends 'base.html.twig' %}
 
-<a href="{{ path("modifyPost", {'id':  post.id }) }}" >Редактировать пост</a><br><br>
-<a href="{{ path("homepage", {'id':  post.id }) }}" >На главную</a><br><br>
+{% block title %}
+    Читать пост - {{ parent() }}
+{% endblock %}
 
+{% block body %}
+    <div class="container">
+        <h1>{{ post.name }}</h1>
+        {{ post.postedAt|date("m.d.Y") }}<br>
+        {{ post.text }}<br><br>
+
+        <a href="{{ path("modifyPost", {'id':  post.id }) }}" >Редактировать пост</a><br><br>
+        <a href="{{ path("homepage") }}" >На главную</a><br><br>
+    </div>
+
+{% endblock %}
