@@ -11,6 +11,7 @@
                 <h3>{{ post.name }}</h3>
                 {{ post.postedAt|date("m.d.Y") }}<br>
                 {{ post.beginOfText }} ...<br>
+                <i>Комментариев: {{ post.countComment }}</i><br>
                 <a href="{{ path("full_post", {'id':  post.id }) }}" >Читать далее</a>
                     <br>  <br>
             </div>

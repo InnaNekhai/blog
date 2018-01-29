@@ -9,7 +9,9 @@
 namespace App\Controller;
 
 
+use App\Entity\Comment;
 use App\Entity\Post;
+use App\Form\CommentType;
 use App\Form\PostType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,9 +47,24 @@ class PostController extends Controller
     /**
      * @Route("/post/{id}", name="full_post", requirements={"id": "\d+"})
      */
-    public function showFullPost(Post $post)
+    public function showFullPost(Post $post, Request $request, EntityManagerInterface $em)
     {
-        return $this->render('post/fullPost.html.twig', ['post'=>$post]);
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $comment->setPost($post);
+            $em->persist($comment);
+            $em->flush();
+
+            return $this->redirectToRoute('full_post', ['id'=>$post->getId()] );
+        }
+
+        return $this->render('post/fullPost.html.twig', [
+            'post'=>$post,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -88,6 +105,7 @@ class PostController extends Controller
         return $this->render('post/newPost.html.twig', ['form' => $form->createView(),
         ]);
     }
+
 
 
 }

@@ -8,6 +8,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -44,6 +45,13 @@ class Post
      */
     private $text;
 
+    /**
+     * @var Comment[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    private $comments;
 
     /**
      * Post constructor.
@@ -52,6 +60,7 @@ class Post
     {
         $this->postedAt = new \DateTime();
         $this->name = '';
+        $this->comments = new ArrayCollection();
     }
 
 
@@ -149,6 +158,33 @@ class Post
 
         return $beginOfText;
 
+    }
+
+    /**
+     * @return Comment[]|ArrayCollection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment)
+    {
+        $this->comments->add($comment);
+        $comment->setPost($this);
+        return $this;
+    }
+
+    public function removeComment(Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+        return $this;
+    }
+
+    public function countComment()
+    {
+        $num = count($this->comments);
+        return $num;
     }
 
 

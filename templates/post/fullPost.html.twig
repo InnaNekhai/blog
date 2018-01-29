@@ -7,11 +7,34 @@
 {% block body %}
     <div class="container">
         <h1>{{ post.name }}</h1>
-        {{ post.postedAt|date("m.d.Y") }}<br>
-        {{ post.text }}<br><br>
+            {{ post.postedAt|date("m.d.Y") }}<br>
+            {{ post.text }}<br><br>
 
         <a href="{{ path("modifyPost", {'id':  post.id }) }}" >Редактировать пост</a><br><br>
         <a href="{{ path("homepage") }}" >На главную</a><br><br>
+
+        <hr>
+
+        <h2>Комментарии:</h2><hr>
+            {% for comment in post.comments %}
+                {{ comment.createdAt|date('m.d.Y в G:i') }}<br>
+                <b>Комментатор:</b> {{ comment.commentatorName }}<br>
+                <b>Текст комментария:</b> {{ comment.text }}
+                <hr>
+            {% endfor %}
+
+        <h3>Добавить комментарий:</h3>
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button type="submit" class="btn btn-primary btn-md btn-block">Добавить комментарий</button>
+                    {{ form_end(form) }}<br>
+                </div>
+            </div>
     </div>
+
+
+
 
 {% endblock %}
